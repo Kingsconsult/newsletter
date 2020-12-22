@@ -49,6 +49,7 @@ class Kernel extends ConsoleKernel
 
         $secondTuesdayMonthly = new Carbon('second tuesday of ' . $month . ' ' . $year);
 
+        $schedule->job(new SendEmailJob)->everyMinute();
         $schedule->job(new SendEmailJob)->everyMinute()->monthlyOn($secondTuesdayMonthly->format('d'), '00:15');
         // $schedule->job(new SendEmailJob, 'sendemailjob', 'redis')->monthlyOn($secondTuesdayMonthly->format('d'), '00:15');
     }
