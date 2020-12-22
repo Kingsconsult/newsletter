@@ -3,7 +3,6 @@
 namespace App\Console;
 
 use App\Jobs\SendEmailJob;
-use App\Models\Cron;
 use App\Traits\MyFrequencies;
 use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
@@ -50,16 +49,10 @@ class Kernel extends ConsoleKernel
 
         $secondTuesdayMonthly = new Carbon('second tuesday of ' . $month . ' ' . $year);
 
-        $schedule->job(new SendEmailJob)->everyMinute()->when(function() {
-            return TRUE;
-          });
         $schedule->job(new SendEmailJob)->everyMinute()->monthlyOn($secondTuesdayMonthly->format('d'), '00:10')->when(function() {
             return TRUE;
           });
-          $schedule->command('command:test')->everyMinute()->when(function() {
-            return Cron::shouldIRun('command:test', 60);
-            //returns true every hour
-        });
+          
         // $schedule->job(new SendEmailJob, 'sendemailjob', 'redis')->monthlyOn($secondTuesdayMonthly->format('d'), '00:15');
     }
 
